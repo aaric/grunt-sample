@@ -1,71 +1,28 @@
 module.exports = function(grunt) {
 
-  grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    jshint: {
-      files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
-      options: {
-        asi: true,
-        esversion: 6,
-        globals: {
-          jQuery: true,
-          console: true,
-          module: true,
-          document: true
-        }
+    grunt.initConfig({
+      log: {
+        foo: [1, 2, 3],
+        bar: 'hello world',
+        baz: false
       }
-    },
-    watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint']
-    },
-    concat: {
-      options: {
-        separator: ';'
-      },
-      dist: {
-        src: ['src/**/*.js'],
-        dest: 'dist/<%= pkg.name %>.js'
-      }
-    },
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd\'T\'HH:MM:ss") %> */'
-      },
-      dist: {
-        files: {
-          'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
-        }
-      }
-    },
-    qunit: {
-      options: {
-        timeout: 10000
-      },
-      files: ['test/**/*.html']
-    }/*,
-    connect: {
-      server: {
-        options: {
-          port: 8000,
-          base: '.'
-        }
-      }
-    }*/
-  });
+    });
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
-  /*grunt.loadNpmTasks('grunt-contrib-connect');*/
+    grunt.registerMultiTask('log', 'Log stuff.', function() {
+      grunt.log.writeln(this.target + ': ' + this.data);
+    });
 
-  grunt.registerTask('test', ['jshint', 'qunit']);
-
-  /*grunt.registerTask('default', function(){
-    grunt.log.writeln(grunt.config('pkg.name'));
-  });*/
-  grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
+    grunt.registerTask('custom', 'A sample task that logs stuff.', function(arg1, arg2) {
+      if (arguments.length === 0) {
+        grunt.log.writeln(this.name + ", no args");
+        // if no arguments, execute task 'log'
+        //grunt.task.requires('log');
+        grunt.config.requires('log.foo');
+        grunt.config.requires(['log', 'foo']);
+        grunt.task.run('log');
+      } else {
+        grunt.log.writeln(this.name + ", " + arg1 + " " + arg2);
+      }
+    });
 
 };
