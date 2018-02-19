@@ -8,7 +8,10 @@ module.exports = function(grunt) {
         asi: true,
         esversion: 6,
         globals: {
-          jQuery: true
+          jQuery: true,
+          console: true,
+          module: true,
+          document: true
         }
       }
     },
@@ -40,7 +43,7 @@ module.exports = function(grunt) {
         timeout: 10000
       },
       files: ['test/**/*.html']
-    },
+    }/*,
     connect: {
       server: {
         options: {
@@ -48,7 +51,7 @@ module.exports = function(grunt) {
           base: '.'
         }
       }
-    }
+    }*/
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -56,13 +59,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-qunit');
-  grunt.loadNpmTasks('grunt-contrib-connect');
+  /*grunt.loadNpmTasks('grunt-contrib-connect');*/
 
-  grunt.registerTask('test', ['connect', 'qunit']);
+  grunt.registerTask('test', ['jshint', 'qunit']);
 
-  //grunt.registerTask('default', ['jshint']);
-  grunt.registerTask('default', function(){
+  /*grunt.registerTask('default', function(){
     grunt.log.writeln(grunt.config('pkg.name'));
-  });
+  });*/
+  grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
 
 };
