@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qunit/2.4.1/qunit.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qunit/2.4.1/qunit.js"></script>
+    <script>
+        QUnit.test('my first test', function(assert) {
+            var result = 2 - 1
+            assert.equal(result, 1, 'usage of equal')
+            assert.notEqual(result, 0, 'usage of not equal')
+            assert.ok(true, 'usage of ok')
+            assert.notOk(false, 'usage of not ok')
+        })
+    </script>
+</body>
+</html>
